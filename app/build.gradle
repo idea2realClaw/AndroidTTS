@@ -18,7 +18,15 @@ static def releaseTime() {
 }
 
 def version = "1." + releaseTime()
-def gitCommits = Integer.parseInt('git rev-list HEAD --count'.execute().text.trim())
+def gitCommits = 1  // 默认值
+try {
+    def output = 'git rev-list HEAD --count'.execute().text.trim()
+    if (output != "") {
+        gitCommits = Integer.parseInt(output)
+    }
+} catch (Exception e) {
+    // 使用默认值 1
+}
 
 android {
     compileSdk libs.versions.compileSdk.get().toInteger()
@@ -87,7 +95,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.release
+            // 使用默认 debug 签名
+            // signingConfig signingConfigs.release
             applicationIdSuffix ".debug"
             versionNameSuffix "_debug"
         }
