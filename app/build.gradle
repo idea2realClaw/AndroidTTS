@@ -18,15 +18,7 @@ static def releaseTime() {
 }
 
 def version = "1." + releaseTime()
-def getGitCommits() {
-    try {
-        def output = 'git rev-list HEAD --count'.execute().text.trim()
-        return output == "" ? 1 : Integer.parseInt(output)
-    } catch (Exception e) {
-        return 1
-    }
-}
-def gitCommits = getGitCommits()
+def gitCommits = 1  // CI 环境下写死为 1，避免 git 命令失败
 
 android {
     compileSdk libs.versions.compileSdk.get().toInteger()
