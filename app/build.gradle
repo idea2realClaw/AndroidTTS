@@ -84,7 +84,10 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            // CI 环境下不使用自定义签名，避免 key.jks 格式问题
+            if (System.getenv("CI") == null && project.rootProject.file("local.properties").exists()) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
