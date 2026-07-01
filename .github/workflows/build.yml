@@ -22,9 +22,9 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-        api-level: 35
-        build-tools: 35.0.0
-        target: google_apis
+        cmdline-tools-version: '11076708'
+        accept-android-sdk-licenses: 'true'
+        packages: 'build-tools;35.0.0 platforms;android-35 platform-tools'
     
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
