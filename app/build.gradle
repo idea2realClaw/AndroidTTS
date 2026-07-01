@@ -18,15 +18,15 @@ static def releaseTime() {
 }
 
 def version = "1." + releaseTime()
-def gitCommits = 1  // 默认值
-try {
-    def output = 'git rev-list HEAD --count'.execute().text.trim()
-    if (output != "") {
-        gitCommits = Integer.parseInt(output)
+def getGitCommits() {
+    try {
+        def output = 'git rev-list HEAD --count'.execute().text.trim()
+        return output == "" ? 1 : Integer.parseInt(output)
+    } catch (Exception e) {
+        return 1
     }
-} catch (Exception e) {
-    // 使用默认值 1
 }
+def gitCommits = getGitCommits()
 
 android {
     compileSdk libs.versions.compileSdk.get().toInteger()
